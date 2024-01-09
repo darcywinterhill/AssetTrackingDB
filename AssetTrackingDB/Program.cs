@@ -1,5 +1,6 @@
 ﻿
 using AssetTrackingDB;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 CRUD crud = new CRUD();
@@ -70,22 +71,50 @@ void ChooseOption()
     switch (optionInputInt)
     {
         case 1:
-            //HandleEmptyList();
+            HandleEmptyList();
             crud.ShowList();
             break;
         case 2:
             crud.AddAsset();
             break;
         case 3:
-            //HandleEmptyList();
+            HandleEmptyList();
             crud.EditAsset();
             break;
         case 4:
-            //HandleEmptyList();
-            //DeleteCar();
+            HandleEmptyList();
+            crud.DeleteAsset();
             break;
         case 5:
-            //();
+            ExitApp();
             break;
     }
+}
+int CountAssets()
+{
+    MyDbContext Context = new MyDbContext();
+
+    int assetCount = Context.Assets.Count();
+    return assetCount;
+}
+
+//Handle empty list
+void HandleEmptyList()
+{
+    int assetCount = CountAssets();
+
+    if (assetCount == 0)
+    {
+        message.DisplayErrorMessage(" The list is empty.");
+        ShowOptions();
+        ChooseOption();
+    }
+}
+void ExitApp()
+{
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine(" >>> GOODBYE! <<<");
+    Console.ResetColor();
+    System.Environment.Exit(1);
 }

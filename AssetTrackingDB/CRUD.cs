@@ -54,7 +54,7 @@ namespace AssetTrackingDB
 
             asset.Model = model;
 
-            Console.Write(" Purchase date (YY/MM/DD): ");
+            Console.Write(" Purchase date (YY-MM-DD): ");
             string date = Console.ReadLine();
 
             DateTime purchaseDate;
@@ -68,7 +68,7 @@ namespace AssetTrackingDB
             {
                 while (!isDate)
                 {
-                    message.DisplayErrorMessage(" Please enter a valid date (YY/MM/DD): ");
+                    message.DisplayErrorMessage(" Please enter a valid date (YY-MM-DD): ");
                     date = Console.ReadLine();
                     isDate = DateTime.TryParse(date, out purchaseDate);
                 }
@@ -150,7 +150,7 @@ namespace AssetTrackingDB
             }
             catch (Exception)
             {
-                message.DisplayErrorMessage(" Was not able to save asset to list.");
+                message.DisplayErrorMessage(" Was not able to save product to list.");
             }
 
             message.DisplaySuccessMessage($" Added {asset.Brand} {asset.Model} to list.");
@@ -223,7 +223,7 @@ namespace AssetTrackingDB
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(" Please enter the Id of the asset you want to edit: ");
+            Console.Write(" Please enter the Id of the product you want to edit: ");
             Console.ResetColor();
 
             string editId = Console.ReadLine();
@@ -238,7 +238,7 @@ namespace AssetTrackingDB
             {
                 while (!isEditIdInt)
                 {
-                    message.DisplayErrorMessage(" Enter Id (number) of the asset you want to edit: ");
+                    message.DisplayErrorMessage(" Please enter the Id (number) of the product you want to edit: ");
                     editId = Console.ReadLine();
                     isEditIdInt = int.TryParse(editId, out editIdInt);
                 }
@@ -246,7 +246,7 @@ namespace AssetTrackingDB
 
             while (!Context.Assets.Any(x => x.Id.Equals(editIdInt)))
             {
-                message.DisplayErrorMessage(" There is no asset with that Id, please enter a valid Id: ");
+                message.DisplayErrorMessage(" There is no product with that Id, please enter a valid Id: ");
                 editId = Console.ReadLine();
                 isEditIdInt = int.TryParse(editId, out editIdInt);
             }
@@ -255,7 +255,8 @@ namespace AssetTrackingDB
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(" What do you want to edit? (1) Type, (2) Brand, (3) Model, (4) Purchase Date or (5) Price? ");
+            Console.WriteLine(" What do you want to edit?");
+            Console.Write(" (1) Type, (2) Brand, (3) Model, (4) Purchase Date or (5) Price? ");
             Console.ResetColor();
 
             string editField = Console.ReadLine();
@@ -407,6 +408,57 @@ namespace AssetTrackingDB
             Asset editedAsset = Context.Assets.FirstOrDefault(x => x.Id.Equals(editIdInt));
 
             message.DisplaySuccessMessage($" Product with Id {editIdInt} is edited - {editedAsset.Brand} {editedAsset.Model}.");
+        }
+
+        public void DeleteAsset()
+        {
+            MyDbContext Context = new MyDbContext();
+
+            ShowList();
+
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write(" Please enter the Id of the product you want to delete: ");
+            Console.ResetColor();
+
+            string deleteId = Console.ReadLine();
+
+            bool isDeleteIdInt = int.TryParse(deleteId, out int deleteIdInt);
+
+            try
+            {
+                deleteIdInt = Convert.ToInt32(deleteId);
+            }
+            catch (FormatException)
+            {
+                while (!isDeleteIdInt)
+                {
+                    message.DisplayErrorMessage(" Enter Id (number) of the product you want to edit: ");
+                    deleteId = Console.ReadLine();
+                    isDeleteIdInt = int.TryParse(deleteId, out deleteIdInt);
+                }
+            }
+
+            while (!Context.Assets.Any(x => x.Id.Equals(deleteIdInt)))
+            {
+                message.DisplayErrorMessage(" There is no product with that Id, please enter a valid Id: ");
+                deleteId = Console.ReadLine();
+                isDeleteIdInt = int.TryParse(deleteId, out deleteIdInt);
+            }
+
+            Asset asset = Context.Assets.FirstOrDefault(x => x.Id.Equals(deleteIdInt));
+
+            try
+            {
+                Context.Assets.Remove(asset);
+                Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                message.DisplayErrorMessage(" Was not able to delete product from list.");
+            }
+
+            message.DisplaySuccessMessage($" Product with Id {deleteIdInt} is deleted - {asset.Brand} {asset.Model}.");
         }
     }
 }
