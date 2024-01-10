@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -168,7 +169,7 @@ namespace AssetTrackingDB
             var sortedAssets = Context.Assets.OrderBy(x => x.Type).ThenBy(x => x.PurchaseDate);
 
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("{0,-5} {1,-15} {2,-15} {3,-15} {4,-15} {5,-10}", " Id", "Type", "Brand", "Model", "Purchase Date", "Price");
             Console.WriteLine(new string('-', 75));
             Console.ResetColor();
@@ -255,8 +256,17 @@ namespace AssetTrackingDB
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine(" What do you want to edit?");
-            Console.Write(" (1) Type, (2) Brand, (3) Model, (4) Purchase Date or (5) Price? ");
+            Console.WriteLine(" Choose what you want to edit -->");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine(" (1) Type");
+            Console.WriteLine(" (2) Brand");
+            Console.WriteLine(" (3) Model");
+            Console.WriteLine(" (4) Purchase Date");
+            Console.WriteLine(" (5) Price");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write(" My choice: ");
             Console.ResetColor();
 
             string editField = Console.ReadLine();
@@ -271,7 +281,7 @@ namespace AssetTrackingDB
             {
                 while (!isEditFieldInt)
                 {
-                    message.DisplayErrorMessage(" What do you want to edit (number)? (1) Type, (2) Brand, (3) Model, (4) Purchase Date or (5) Price: ");
+                    message.DisplayErrorMessage(" Please enter what you want to edit (number)? ");
                     editField = Console.ReadLine();
                     isEditFieldInt = int.TryParse(editField, out editFieldInt);
                 }
@@ -279,7 +289,7 @@ namespace AssetTrackingDB
 
             while (isEditFieldInt && editFieldInt < 1 || editFieldInt > 5)
             {
-                message.DisplayErrorMessage(" You can only choose (1) Type, (2) Brand, (3) Model, (4) Purchase Date or (5) Price: ");
+                message.DisplayErrorMessage(" You can only choose (1), (2), (3), (4) or (5): ");
                 editField = Console.ReadLine();
                 isEditFieldInt = int.TryParse(editField, out editFieldInt);
             }
@@ -360,7 +370,7 @@ namespace AssetTrackingDB
                     {
                         while (!isDate)
                         {
-                            message.DisplayErrorMessage(" Please enter a valid date (YY/MM/DD): ");
+                            message.DisplayErrorMessage(" Please enter a valid date (YY-MM-DD): ");
                             newValue = Console.ReadLine();
                             isDate = DateTime.TryParse(newValue, out newValueDate);
                         }
