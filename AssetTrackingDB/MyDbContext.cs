@@ -16,7 +16,6 @@ namespace AssetTrackingDB
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // We tell the app to use the connectionstring.
             optionsBuilder.UseSqlServer(connectionString);
         }
 

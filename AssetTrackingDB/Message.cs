@@ -26,6 +26,7 @@ namespace AssetTrackingDB
             Console.ResetColor();
         }
 
+        //Message for statistics section
         public void StatisticsMessage(string message)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;

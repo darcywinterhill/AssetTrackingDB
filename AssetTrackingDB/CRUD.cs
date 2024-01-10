@@ -16,6 +16,8 @@ namespace AssetTrackingDB
         Message message = new Message();
 
         // ** CREATE **
+
+        //Add product
         public void AddAsset()
         {
             MyDbContext Context = new MyDbContext();
@@ -61,7 +63,7 @@ namespace AssetTrackingDB
             DateTime purchaseDate;
             bool isDate = DateTime.TryParse(date, out purchaseDate);
 
-            try //Try-catch if input is not DateTime type
+            try
             {
                 purchaseDate = Convert.ToDateTime(date);
             }
@@ -126,19 +128,19 @@ namespace AssetTrackingDB
 
             if (isTypeInt)
             {
-                while (typeInt != 1 && typeInt != 2) //If input is not 1 or 2
+                while (typeInt != 1 && typeInt != 2)
                 {
                     message.DisplayErrorMessage(" Please enter (1) for laptop or (2) for mobile phone: ");
                     type = Console.ReadLine();
                     isTypeInt = int.TryParse(type, out typeInt);
                 }
 
-                if (typeInt == 1) //Add product to asset list - laptop type
+                if (typeInt == 1)
                 {
                     asset.Type = "Laptop";
 
                 }
-                else if (typeInt == 2) //Add product to asset list - mobile phone type
+                else if (typeInt == 2)
                 {
                     asset.Type = "MobilePhone";
                 }
@@ -214,8 +216,9 @@ namespace AssetTrackingDB
             return endOfLifeDate < thresholdDate;
         }
 
-        //** UPDATE **
+        // ** UPDATE **
 
+        //Edit asset
         public void EditAsset()
         {
             MyDbContext Context = new MyDbContext();
@@ -341,12 +344,12 @@ namespace AssetTrackingDB
                             isTypeInt = int.TryParse(type, out typeInt);
                         }
 
-                        if (typeInt == 1) //Add product to asset list - laptop type
+                        if (typeInt == 1)
                         {
                             asset.Type = "Laptop";
 
                         }
-                        else if (typeInt == 2) //Add product to asset list - mobile phone type
+                        else if (typeInt == 2)
                         {
                             asset.Type = "MobilePhone";
                         }
@@ -362,7 +365,7 @@ namespace AssetTrackingDB
                     DateTime newValueDate;
                     bool isDate = DateTime.TryParse(newValue, out newValueDate);
 
-                    try //Try-catch if input is not DateTime type
+                    try
                     {
                         newValueDate = Convert.ToDateTime(newValue);
                     }
@@ -401,7 +404,6 @@ namespace AssetTrackingDB
                     }
                     asset.Price = newValueInt;
                     break;
-
             }
 
             try
@@ -414,12 +416,14 @@ namespace AssetTrackingDB
                 message.DisplayErrorMessage(" Was not able to edit product.");
             }
 
-
             Asset editedAsset = Context.Assets.FirstOrDefault(x => x.Id.Equals(editIdInt));
 
             message.DisplaySuccessMessage($" Product with Id {editIdInt} is edited - {editedAsset.Brand} {editedAsset.Model}.");
         }
 
+        // ** DELETE **
+
+        //Delete product
         public void DeleteAsset()
         {
             MyDbContext Context = new MyDbContext();

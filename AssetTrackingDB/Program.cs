@@ -23,6 +23,7 @@ void RunApp()
     }
 }
 
+//Show app functions
 void ShowOptions()
 {
     Console.WriteLine();
@@ -38,6 +39,7 @@ void ShowOptions()
     Console.WriteLine(" (6) Exit application");
 }
 
+//Choose app function
 void ChooseOption()
 {
     Console.WriteLine();
@@ -96,6 +98,7 @@ void ChooseOption()
     }
 }
 
+//Statistics functions
 void ChooseStats()
 {
     Console.WriteLine();
@@ -166,12 +169,15 @@ void ChooseStats()
             break;
     }
 }
+
+//Show total nr of assets
 void TotalAssets()
 {
     Console.WriteLine();
     message.StatisticsMessage($" >> Total nr of assets: [{CountAssets()}]");
 }
 
+//Show nr of laptops/mobile phones
 void SplitAssets()
 {
     MyDbContext Context = new MyDbContext();
@@ -184,6 +190,7 @@ void SplitAssets()
     message.StatisticsMessage($" >> Nr of Mobile Phones: [{mobilePhoneCount}]");
 }
 
+//Show total cost
 void TotalCost()
 {
     MyDbContext Context = new MyDbContext();
@@ -194,6 +201,7 @@ void TotalCost()
     message.StatisticsMessage($" >> Total cost: [{totalCost} SEK]");
 }
 
+//Show laptop/mobile phone cost
 void SplitCost()
 {
     MyDbContext Context = new MyDbContext();
@@ -206,6 +214,7 @@ void SplitCost()
     message.StatisticsMessage($" >> Mobile Phone cost: [{mobilePhoneCost} SEK]");
 }
 
+//Count assets
 int CountAssets()
 {
     MyDbContext Context = new MyDbContext();
@@ -225,6 +234,8 @@ void HandleEmptyList()
         RunApp();
     }
 }
+
+//Exit app
 void ExitApp()
 {
     Console.WriteLine();
